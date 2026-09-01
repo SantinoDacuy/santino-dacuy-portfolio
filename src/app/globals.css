@@ -1,26 +1,211 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --color-bg: #0A0612;
+  --color-surface: #150F24;
+  --color-surface-alt: #1D1533;
+  --color-border: #2E2350;
+  --color-text-primary: #F4F1FA;
+  --color-text-secondary: #B6ACD1;
+  --color-accent: #8B5CF6;
+  --color-accent-strong: #A78BFA;
+  --color-accent-glow: rgba(139, 92, 246, 0.45);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-surface-alt: var(--color-surface-alt);
+  --color-primary: var(--color-text-primary);
+  --color-secondary: var(--color-text-secondary);
+  --color-border-default: var(--color-border);
+  --color-accent: var(--color-accent);
+  --color-accent-strong: var(--color-accent-strong);
+
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.glow {
+  box-shadow: 0 0 20px 0 var(--color-accent-glow);
+}
+
+.glow-strong {
+  box-shadow: 0 0 40px 8px var(--color-accent-glow);
+}
+
+.orb-glow {
+  box-shadow: 0 0 20px 0 var(--color-accent-glow);
+  transition: box-shadow 300ms ease;
+}
+
+.group:hover .orb-glow {
+  box-shadow: 0 0 40px 8px var(--color-accent-glow);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes pulse-orb {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+  }
+
+  .animate-pulse-orb {
+    animation: pulse-orb 3.5s ease-in-out infinite;
   }
 }
 
+html.debug-mode {
+  --color-bg: #000000;
+  --color-surface: #0a0a0a;
+  --color-surface-alt: #141414;
+  --color-border: #003311;
+  --color-text-primary: #00ff66;
+  --color-text-secondary: #00cc52;
+  --color-accent: #00ff66;
+  --color-accent-strong: #00ff66;
+  --color-accent-glow: rgba(0, 255, 102, 0.45);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  color: var(--color-text-primary);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  transition: background-color 300ms, color 300ms;
+}
+
+/* Custom scrollbar */
+html {
+  scrollbar-color: var(--color-accent) var(--color-surface);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 5px;
+}
+
+.parallax-gallery {
+  position: relative;
+  width: 100%;
+  overflow: clip;
+  padding: 4rem 0 6rem;
+}
+
+.parallax-gallery::before,
+.parallax-gallery::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: min(42rem, 80%);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-border),
+    transparent
+  );
+  pointer-events: none;
+}
+
+.parallax-gallery::before {
+  top: 0;
+}
+
+.parallax-gallery::after {
+  bottom: 0;
+}
+
+.parallax-gallery__inner {
+  margin: 0 auto;
+  max-width: 72rem;
+  padding: 0 1.5rem;
+}
+
+.parallax-gallery__item {
+  position: relative;
+  width: min(520px, 88vw);
+  margin-block: 18vh;
+}
+
+.parallax-gallery__item--left {
+  margin-inline: 0 auto;
+}
+
+.parallax-gallery__item--right {
+  margin-inline: auto 0;
+}
+
+.parallax-gallery__item--center {
+  margin-inline: auto;
+}
+
+.parallax-gallery__frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 5;
+  border-radius: 20px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: 0 24px 80px -32px var(--color-accent-glow);
+}
+
+.parallax-gallery__frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 45%,
+    color-mix(in srgb, var(--color-bg) 55%, transparent) 100%
+  );
+}
+
+.parallax-gallery__img {
+  position: absolute;
+  inset: -12%;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .parallax-gallery__img {
+    opacity: 0;
+  }
+}
+
+.parallax-gallery__caption {
+  margin-top: 0.85rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parallax-gallery__img {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .parallax-gallery__item {
+    margin-block: 12vh;
+    margin-inline: auto;
+  }
 }
