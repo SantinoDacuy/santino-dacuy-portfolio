@@ -1,0 +1,124 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, monospace;
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --color-signal: var(--signal);
+  --color-signal-foreground: var(--signal-foreground);
+  --color-warm: var(--warm);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+}
+
+:root,
+.dark {
+  color-scheme: dark;
+  --background: oklch(0.13 0.018 262);
+  --foreground: oklch(0.94 0.01 240);
+  --card: oklch(0.17 0.02 262);
+  --card-foreground: oklch(0.94 0.01 240);
+  --popover: oklch(0.17 0.02 262);
+  --popover-foreground: oklch(0.94 0.01 240);
+  --primary: oklch(0.84 0.14 190);
+  --primary-foreground: oklch(0.13 0.018 262);
+  --secondary: oklch(0.22 0.022 262);
+  --secondary-foreground: oklch(0.94 0.01 240);
+  --muted: oklch(0.22 0.022 262);
+  --muted-foreground: oklch(0.66 0.02 250);
+  --accent: oklch(0.24 0.03 240);
+  --accent-foreground: oklch(0.94 0.01 240);
+  --destructive: oklch(0.65 0.2 25);
+  --border: oklch(1 0 0 / 9%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.84 0.14 190);
+  --signal: oklch(0.84 0.14 190);
+  --signal-foreground: oklch(0.13 0.018 262);
+  --warm: oklch(0.8 0.15 75);
+  --radius: 0.75rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, oklch(0.84 0.14 190 / 0.08), transparent 60%),
+      linear-gradient(to bottom, oklch(0.13 0.018 262), oklch(0.11 0.016 262));
+    background-attachment: fixed;
+  }
+  ::selection {
+    background: oklch(0.84 0.14 190 / 0.3);
+  }
+}
+
+@layer utilities {
+  .grid-lines {
+    background-image:
+      linear-gradient(to right, oklch(1 0 0 / 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(1 0 0 / 0.035) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  .glass {
+    background: linear-gradient(160deg, oklch(1 0 0 / 0.06), oklch(1 0 0 / 0.015));
+    backdrop-filter: blur(12px);
+    border: 1px solid oklch(1 0 0 / 0.09);
+  }
+  .glow-text {
+    text-shadow: 0 0 24px oklch(0.84 0.14 190 / 0.45);
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+}
+
+/* custom cursor */
+@media (pointer: fine) {
+  body.has-cursor,
+  body.has-cursor a,
+  body.has-cursor button {
+    cursor: none;
+  }
+}
+
+/* reveal defaults — GSAP animates these in */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
