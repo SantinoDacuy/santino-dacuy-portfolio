@@ -1,4 +1,4 @@
-import { ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight, FileText } from 'lucide-react'
 import { GithubIcon } from '@/components/brand-icons'
 import { SectionHeader } from '@/components/section-header'
 import { TiltCard } from '@/components/effects/tilt-card'
@@ -37,19 +37,34 @@ function ProjectCard({ project, featured }: { project: Project; featured?: boole
           <span className="rounded-full border border-border px-2.5 py-0.5 text-muted-foreground">{project.kind}</span>
           {project.year && <span className="text-muted-foreground">{project.year}</span>}
         </div>
-        {project.link && (
-          <Magnetic strength={0.3}>
-            <a
-              href={project.link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Repositorio en GitHub: ${project.link.label}`}
-              className="grid size-9 place-items-center rounded-full border border-border text-muted-foreground transition hover:border-signal/40 hover:text-signal"
-            >
-              <GithubIcon className="size-4" />
-            </a>
-          </Magnetic>
-        )}
+        <div className="flex items-center gap-2">
+          {project.pdf && (
+            <Magnetic strength={0.3}>
+              <a
+                href={project.pdf.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Documentación PDF: ${project.pdf.label}`}
+                className="grid size-9 place-items-center rounded-full border border-border text-muted-foreground transition hover:border-signal/40 hover:text-signal"
+              >
+                <FileText className="size-4" />
+              </a>
+            </Magnetic>
+          )}
+          {project.link && (
+            <Magnetic strength={0.3}>
+              <a
+                href={project.link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Repositorio en GitHub: ${project.link.label}`}
+                className="grid size-9 place-items-center rounded-full border border-border text-muted-foreground transition hover:border-signal/40 hover:text-signal"
+              >
+                <GithubIcon className="size-4" />
+              </a>
+            </Magnetic>
+          )}
+        </div>
       </div>
 
       <h3 className="mt-5 text-2xl font-medium tracking-tight md:text-3xl">{project.title}</h3>
@@ -75,6 +90,19 @@ function ProjectCard({ project, featured }: { project: Project; featured?: boole
           className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-signal underline-offset-4 hover:underline"
         >
           github.com/{project.link.label}
+          <ArrowUpRight className="size-3.5" aria-hidden="true" />
+        </a>
+      )}
+
+      {!project.link && project.pdf && (
+        <a
+          href={project.pdf.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-5 inline-flex items-center gap-1.5 font-mono text-xs text-signal underline-offset-4 hover:underline"
+        >
+          <FileText className="size-3.5" aria-hidden="true" />
+          {project.pdf.label}
           <ArrowUpRight className="size-3.5" aria-hidden="true" />
         </a>
       )}

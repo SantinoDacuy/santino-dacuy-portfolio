@@ -10,7 +10,7 @@ export const profile = {
   phoneHref: 'tel:+543442531963',
   linkedin: 'https://www.linkedin.com/in/santino-dacuy',
   linkedinLabel: 'Santino Dacuy',
-  cv: '/cv-santino-dacuy.pdf',
+  cv: '/Santino Dacuy CV Analista.pdf',
 }
 
 export const about = {
@@ -52,6 +52,7 @@ export type Project = {
   bullets: string[]
   stack: string[]
   link?: { label: string; href: string }
+  pdf?: { label: string; href: string }
   findings?: { value: string; count?: number; decimals?: number; suffix?: string; prefix?: string; label: string; text: string }[]
 }
 
@@ -71,6 +72,10 @@ export const projects: Project[] = [
       'Integraciones: Strapi (CMS del catálogo), API de Mercado Pago (pagos online) y autenticación con Google OAuth.',
     ],
     stack: ['React', 'React Router v6', 'Node.js', 'Express', 'PostgreSQL', 'Strapi', 'Mercado Pago', 'Google OAuth', 'UML', 'Figma'],
+    link: {
+      label: 'SantinoDacuy/MATE-UNICO-Taller',
+      href: 'https://github.com/SantinoDacuy/MATE-UNICO-Taller',
+    },
   },
   {
     id: 'retail-vision',
@@ -87,6 +92,10 @@ export const projects: Project[] = [
       'Dashboards en Tableau.',
     ],
     stack: ['PostgreSQL', 'Esquema estrella', 'ETL', 'Tableau', 'SQL'],
+    pdf: {
+      label: 'Documentación del proyecto',
+      href: '/docs/retail-vision.pdf',
+    },
     findings: [
       {
         value: '1.000 → 1.000.000',
@@ -145,6 +154,10 @@ export const projects: Project[] = [
       'Coautor de una propuesta formal con alcances y limitaciones definidos.',
     ],
     stack: ['Redes neuronales', 'ART1', 'Python', 'Liderazgo técnico'],
+    pdf: {
+      label: 'Documentación del proyecto',
+      href: '/docs/clasificador-frutas.pdf',
+    },
   },
   {
     id: 'replicacion',
