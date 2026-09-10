@@ -132,41 +132,41 @@ export function Preloader() {
   return (
     <div
       style={{ perspective: '1400px' }}
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center p-3 sm:p-6 md:p-8 w-screen h-screen overflow-hidden touch-none select-none transition-all duration-1000 ease-in-out ${
+      className={`fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-8 select-none transition-all duration-1000 ease-in-out ${
         isFinished
           ? 'bg-transparent backdrop-blur-0 pointer-events-none'
           : 'bg-background/98 backdrop-blur-xl pointer-events-auto'
       }`}
     >
-      {/* Dynamic ambient backgrounds - contained strictly within viewport */}
+      {/* Dynamic ambient backgrounds */}
       <div
         className={`pointer-events-none absolute inset-0 overflow-hidden transition-opacity duration-1000 ${
           isFinished ? 'opacity-0' : 'opacity-100'
         }`}
       >
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[600px] h-[300px] sm:h-[600px] rounded-full bg-signal/15 blur-[120px] animate-pulse" />
-        <div className="absolute bottom-10 right-1/4 w-[250px] sm:w-[450px] h-[250px] sm:h-[450px] rounded-full bg-violet-600/15 blur-[140px]" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[580px] h-[280px] sm:h-[580px] rounded-full bg-signal/15 blur-[120px] animate-pulse" />
+        <div className="absolute bottom-10 right-1/4 w-[220px] sm:w-[420px] h-[220px] sm:h-[420px] rounded-full bg-violet-600/15 blur-[130px]" />
 
-        {/* Concentric Cyber Radar Rings - sized to never cause layout stretch */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[750px] h-[340px] sm:h-[750px] rounded-full border border-signal/[0.08] animate-[spin_80s_linear_infinite]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[550px] h-[280px] sm:h-[550px] rounded-full border border-dashed border-signal/[0.12] animate-[spin_60s_linear_infinite_reverse]" />
+        {/* Concentric Cyber Radar Rings */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[700px] h-[300px] sm:h-[700px] rounded-full border border-signal/[0.08] animate-[spin_80s_linear_infinite]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[240px] sm:w-[500px] h-[240px] sm:h-[500px] rounded-full border border-dashed border-signal/[0.12] animate-[spin_60s_linear_infinite_reverse]" />
 
-        {/* High-tech Precision Grid */}
+        {/* Precision Grid */}
         <div className="grid-lines absolute inset-0 opacity-30 [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_90%)]" />
 
         {/* Top HUD Telemetry badges */}
-        <div className="absolute top-4 left-4 sm:top-6 sm:left-6 font-mono text-[9px] sm:text-[10px] text-signal/60 flex items-center gap-2">
+        <div className="absolute top-3 left-3 sm:top-6 sm:left-6 font-mono text-[9px] sm:text-[10px] text-signal/60 flex items-center gap-1.5">
           <span className="size-1.5 bg-signal rounded-full animate-ping" />
-          <span>SD-SYSTEM // CORE_ONLINE</span>
+          <span>SD-SYSTEM // ONLINE</span>
         </div>
-        <div className="absolute top-4 right-4 sm:top-6 sm:right-6 font-mono text-[9px] sm:text-[10px] text-muted-foreground/50 tracking-wider">
-          <span>PORTFOLIO_OS v2.6</span>
+        <div className="absolute top-3 right-3 sm:top-6 sm:right-6 font-mono text-[9px] sm:text-[10px] text-muted-foreground/50 tracking-wider">
+          <span>PORTFOLIO_OS</span>
         </div>
       </div>
 
-      {/* Main Glass Center Card: locked to 100% of container max-width with no side overflow */}
+      {/* Main Glass Center Card: strictly responsive and centered */}
       <div
-        className={`relative w-full max-w-[94vw] sm:max-w-xl md:max-w-2xl max-h-[88svh] sm:max-h-[92svh] flex flex-col justify-between overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 glass p-4 sm:p-7 md:p-9 shadow-[0_25px_80px_rgba(0,0,0,0.9)] z-10 transition-all duration-1100 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`relative w-full max-w-lg sm:max-w-xl md:max-w-2xl max-h-[92svh] flex flex-col justify-between overflow-y-auto sm:overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 glass p-4 sm:p-6 md:p-8 shadow-[0_25px_80px_rgba(0,0,0,0.9)] z-10 transition-all duration-1100 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isFinished
             ? 'scale-50 rotate-y-[65deg] -rotate-x-12 translate-y-16 blur-md opacity-0'
             : 'scale-100 rotate-y-0 rotate-x-0 translate-y-0 blur-0 opacity-100'
@@ -176,10 +176,10 @@ export function Preloader() {
         {/* Holographic cyber scan line */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-signal/[0.04] to-transparent animate-pulse" />
 
-        <div className="grid gap-4 sm:gap-7 sm:grid-cols-12 items-center w-full">
+        <div className="grid gap-4 sm:gap-6 sm:grid-cols-12 items-center w-full">
           
-          {/* Mobile compact header: clean, horizontal, never overflows */}
-          <div className="flex sm:hidden items-center gap-3 pb-3 border-b border-white/10 w-full">
+          {/* Mobile compact header */}
+          <div className="flex sm:hidden items-center gap-3 pb-2.5 border-b border-white/10 w-full min-w-0">
             <div className="relative size-12 shrink-0 overflow-hidden rounded-xl border border-signal/40 shadow-[0_0_12px_rgba(var(--signal),0.3)]">
               <Image
                 src="/SANyLEGO.jpeg"
@@ -197,7 +197,7 @@ export function Preloader() {
               <h1 className="text-base font-semibold tracking-tight text-foreground truncate">
                 Santino <span className="text-signal glow-text">Dacuy</span>
               </h1>
-              <p className="font-mono text-[9px] text-muted-foreground truncate">
+              <p className="font-mono text-[10px] text-muted-foreground truncate">
                 Analista en Sistemas · UADER
               </p>
             </div>
@@ -253,7 +253,7 @@ export function Preloader() {
           </div>
 
           {/* Right Column: Console & Action Terminal */}
-          <div className="sm:col-span-7 flex flex-col justify-between space-y-3.5 sm:space-y-4 w-full">
+          <div className="sm:col-span-7 flex flex-col justify-between space-y-3 sm:space-y-4 w-full min-w-0">
             {/* Desktop Title Header */}
             <div className="hidden sm:block">
               <div className="inline-flex items-center gap-2 rounded-full border border-signal/30 bg-signal/10 px-3 py-1 font-mono text-[11px] text-signal">
@@ -270,25 +270,25 @@ export function Preloader() {
             </div>
 
             {/* Real-time Terminal Log Window */}
-            <div className="h-[142px] sm:h-[168px] rounded-xl border border-white/5 bg-black/75 p-2.5 sm:p-3 font-mono text-[10px] sm:text-[11px] flex flex-col justify-between shadow-inner backdrop-blur-md overflow-hidden w-full">
-              <div className="flex items-center justify-between text-[9px] sm:text-[10px] text-muted-foreground/60 border-b border-white/5 pb-1 shrink-0">
-                <span className="flex items-center gap-1 truncate">
+            <div className="h-[150px] sm:h-[168px] rounded-xl border border-white/5 bg-black/75 p-2.5 sm:p-3 font-mono text-[10px] sm:text-[11px] flex flex-col justify-between shadow-inner backdrop-blur-md overflow-hidden w-full min-w-0">
+              <div className="flex items-center justify-between gap-2 text-[9px] sm:text-[10px] text-muted-foreground/60 border-b border-white/5 pb-1.5 shrink-0 min-w-0">
+                <span className="flex items-center gap-1.5 truncate min-w-0">
                   <Terminal className="size-3 text-signal shrink-0" />
-                  consola_inicializacion.sh
+                  <span className="truncate">consola_inicializacion.sh</span>
                 </span>
-                <span className="text-signal/90 font-semibold tracking-wider text-[8px] sm:text-[9px] shrink-0">
-                  {isGranted ? 'GRANTED' : isWaitingAuth ? 'WAITING' : 'BOOTING'}
+                <span className="text-signal/90 font-semibold tracking-wider text-[9px] sm:text-[10px] shrink-0 whitespace-nowrap pl-1">
+                  {isGranted ? 'STATUS: GRANTED' : isWaitingAuth ? 'STATUS: READY' : 'STATUS: BOOTING'}
                 </span>
               </div>
 
-              <div className="space-y-1 flex-1 flex flex-col justify-start overflow-hidden pt-1">
+              <div className="space-y-1.5 flex-1 flex flex-col justify-start overflow-hidden pt-1 min-w-0">
                 {bootLogs.slice(0, logIndex + 1).map((log, i) => (
-                  <div key={i} className="flex items-center justify-between gap-1 text-[9.5px] sm:text-[10.5px] animate-in fade-in slide-in-from-left-2 duration-300">
-                    <span className="text-muted-foreground truncate">
+                  <div key={i} className="flex items-center justify-between gap-2 text-[10px] sm:text-[11px] animate-in fade-in slide-in-from-left-2 duration-300 min-w-0">
+                    <span className="text-muted-foreground truncate min-w-0 flex-1" title={log.text}>
                       <span className="text-signal mr-1 shrink-0">›</span>
                       {log.text}
                     </span>
-                    <span className="shrink-0 text-[8.5px] sm:text-[9.5px] font-semibold text-signal">
+                    <span className="shrink-0 text-[9px] sm:text-[10px] font-semibold text-signal whitespace-nowrap">
                       [{log.status}]
                     </span>
                   </div>
@@ -297,16 +297,18 @@ export function Preloader() {
             </div>
 
             {/* Dual Progress Bar */}
-            <div className="w-full">
-              <div className="flex items-center justify-between font-mono text-[9px] sm:text-[10px] text-muted-foreground mb-1">
-                <span className="truncate pr-1">
+            <div className="w-full min-w-0">
+              <div className="flex items-center justify-between gap-2 font-mono text-[10px] sm:text-[11px] text-muted-foreground mb-1 min-w-0">
+                <span className="truncate min-w-0 flex-1">
                   {isGranted
-                    ? 'Acceso concedido...'
+                    ? 'Acceso concedido. Abriendo...'
                     : isWaitingAuth
-                    ? 'Autenticación requerida'
+                    ? 'Autenticación biométrica lista'
                     : 'Cargando infraestructura...'}
                 </span>
-                <span className="text-signal font-semibold shrink-0">{Math.round(progress)}%</span>
+                <span className="text-signal font-semibold text-xs shrink-0 whitespace-nowrap">
+                  {Math.round(progress)}%
+                </span>
               </div>
 
               <div className="relative h-1.5 sm:h-2 w-full overflow-hidden rounded-full bg-white/[0.06] p-[1px] border border-white/10">
@@ -322,11 +324,11 @@ export function Preloader() {
             </div>
 
             {/* Action Area */}
-            <div className="pt-0.5 flex flex-col items-center gap-1.5 w-full">
+            <div className="pt-0.5 flex flex-col items-center gap-1.5 w-full min-w-0">
               {isGranted ? (
                 <div className="w-full flex items-center justify-center gap-2 rounded-full border border-emerald-500/50 bg-emerald-500/20 py-2 sm:py-2.5 text-emerald-300 font-mono text-xs sm:text-sm font-semibold shadow-[0_0_25px_rgba(16,185,129,0.45)] animate-in zoom-in-95 duration-200">
-                  <CheckCircle2 className="size-3.5 sm:size-4 text-emerald-400 animate-bounce" />
-                  <span className="text-[11px] sm:text-xs">✓ ACCESO ACEPTADO · BIENVENIDO</span>
+                  <CheckCircle2 className="size-3.5 sm:size-4 text-emerald-400 animate-bounce shrink-0" />
+                  <span className="truncate">✓ ACCESO ACEPTADO · BIENVENIDO</span>
                 </div>
               ) : isWaitingAuth ? (
                 <div className="w-full space-y-1">
@@ -338,31 +340,31 @@ export function Preloader() {
                   >
                     {isScanning ? (
                       <>
-                        <div className="size-3.5 sm:size-4 rounded-full border-2 border-signal-foreground border-t-transparent animate-spin" />
-                        <span className="text-[11px] sm:text-xs">Verificando biométrica...</span>
+                        <div className="size-3.5 sm:size-4 rounded-full border-2 border-signal-foreground border-t-transparent animate-spin shrink-0" />
+                        <span>Verificando biométrica...</span>
                       </>
                     ) : (
                       <>
-                        <Fingerprint className="size-3.5 sm:size-4.5 transition-transform duration-200 group-hover:scale-110" />
-                        <span className="text-[11px] sm:text-xs">[ Desbloquear Acceso ]</span>
-                        <Unlock className="size-3 sm:size-4 transition-transform duration-200 group-hover:rotate-12" />
+                        <Fingerprint className="size-4 sm:size-4.5 transition-transform duration-200 group-hover:scale-110 shrink-0" />
+                        <span>[ Desbloquear Acceso ]</span>
+                        <Unlock className="size-3.5 sm:size-4 transition-transform duration-200 group-hover:rotate-12 shrink-0" />
                       </>
                     )}
                   </button>
-                  <p className="font-mono text-[8.5px] sm:text-[9.5px] text-center text-muted-foreground/60">
+                  <p className="font-mono text-[9px] sm:text-[10px] text-center text-muted-foreground/60">
                     * Confirmación requerida para habilitar la terminal
                   </p>
                 </div>
               ) : (
-                <div className="w-full flex items-center justify-between text-[9.5px] sm:text-[10.5px]">
-                  <span className="font-mono text-muted-foreground/60 flex items-center gap-1">
-                    <Lock className="size-2.5 text-signal/70 animate-pulse" />
-                    Sincronizando...
+                <div className="w-full flex items-center justify-between gap-3 text-[10px] sm:text-[11px] min-w-0">
+                  <span className="font-mono text-muted-foreground/60 flex items-center gap-1.5 truncate min-w-0">
+                    <Lock className="size-3 text-signal/70 animate-pulse shrink-0" />
+                    <span className="truncate">Sincronizando protocolos...</span>
                   </span>
                   <button
                     type="button"
                     onClick={handleSkip}
-                    className="font-mono text-muted-foreground/60 transition-colors hover:text-signal cursor-pointer"
+                    className="font-mono text-muted-foreground/70 transition-colors hover:text-signal cursor-pointer shrink-0 whitespace-nowrap px-1 py-0.5"
                   >
                     [ Saltear ]
                   </button>
@@ -377,7 +379,7 @@ export function Preloader() {
 
       {/* Footer credits */}
       <div
-        className={`absolute bottom-2 sm:bottom-4 font-mono text-[8.5px] sm:text-[9.5px] text-muted-foreground/40 tracking-widest uppercase text-center px-2 transition-opacity duration-700 ${
+        className={`absolute bottom-2 sm:bottom-4 font-mono text-[9px] sm:text-[10px] text-muted-foreground/40 tracking-widest uppercase text-center px-2 transition-opacity duration-700 ${
           isFinished ? 'opacity-0' : 'opacity-100'
         }`}
       >
