@@ -1,16 +1,59 @@
-import { ArrowUpRight, Download, Mail, MapPin, Phone } from 'lucide-react'
-import { LinkedinIcon } from '@/components/brand-icons'
+'use client'
+
+import { useState } from 'react'
+import Image from 'next/image'
+import { ArrowUpRight, Check, Copy, Download, Mail, MapPin, Phone } from 'lucide-react'
+import { LinkedinIcon, GithubIcon } from '@/components/brand-icons'
 import { Magnetic } from '@/components/effects/magnetic'
 import { TiltCard } from '@/components/effects/tilt-card'
 import { profile } from '@/lib/content'
 
 const channels = [
-  { icon: Mail, label: 'Email', value: profile.email, href: `mailto:${profile.email}` },
-  { icon: Phone, label: 'Teléfono', value: profile.phone, href: profile.phoneHref },
-  { icon: LinkedinIcon, label: 'LinkedIn', value: profile.linkedinLabel, href: profile.linkedin, external: true },
+  {
+    icon: Mail,
+    label: 'Email',
+    value: profile.email,
+    href: `mailto:${profile.email}`,
+    copyable: profile.email,
+  },
+  {
+    icon: Phone,
+    label: 'Teléfono',
+    value: profile.phone,
+    href: profile.phoneHref,
+    copyable: profile.phone,
+  },
+  {
+    icon: LinkedinIcon,
+    label: 'LinkedIn',
+    value: profile.linkedinLabel,
+    href: profile.linkedin,
+    external: true,
+  },
+  {
+    icon: GithubIcon,
+    label: 'GitHub',
+    value: profile.githubLabel,
+    href: profile.github,
+    external: true,
+  },
 ]
 
 export function Contact() {
+  const [copiedKey, setCopiedKey] = useState<string | null>(null)
+
+  const handleCopy = async (e: React.MouseEvent, text: string, key: string) => {
+    e.preventDefault()
+    e.stopPropagation()
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopiedKey(key)
+      setTimeout(() => setCopiedKey(null), 2000)
+    } catch {
+      // fallback
+    }
+  }
+
   return (
     <section id="contacto" className="relative mx-auto max-w-6xl px-5 py-24 md:px-8 md:py-32">
       <div className="reveal">
@@ -51,30 +94,65 @@ export function Contact() {
             <ul className="flex flex-col gap-3 self-center">
               {channels.map((c) => {
                 const Icon = c.icon
+                const isCopied = copiedKey === c.label
+
                 return (
                   <li key={c.label}>
-                    <a
-                      href={c.href}
-                      target={c.external ? '_blank' : undefined}
-                      rel={c.external ? 'noopener noreferrer' : undefined}
-                      className="group/link flex items-center justify-between gap-4 rounded-2xl border border-border bg-white/[0.02] px-5 py-4 transition hover:border-signal/40 hover:bg-signal/[0.06]"
-                    >
-                      <span className="flex items-center gap-4">
-                        <span className="grid size-10 place-items-center rounded-xl border border-signal/20 bg-signal/10 text-signal">
+                    <div className="group/link flex items-center justify-between gap-4 rounded-2xl border border-border bg-white/[0.02] px-5 py-4 transition hover:border-signal/40 hover:bg-signal/[0.06]">
+                      <a
+                        href={c.href}
+                        target={c.external ? '_blank' : undefined}
+                        rel={c.external ? 'noopener noreferrer' : undefined}
+                        className="flex flex-1 items-center gap-4 min-w-0"
+                      >
+                        <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-signal/20 bg-signal/10 text-signal">
                           <Icon className="size-4" aria-hidden="true" />
                         </span>
-                        <span>
+                        <span className="min-w-0">
                           <span className="block font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{c.label}</span>
-                          <span className="block text-sm md:text-base">{c.value}</span>
+                          <span className="block truncate text-sm md:text-base font-mono">{c.value}</span>
                         </span>
-                      </span>
-                      <ArrowUpRight className="size-4 text-muted-foreground transition group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:text-signal" aria-hidden="true" />
-                    </a>
+                      </a>
+
+                      <div className="flex items-center gap-2 shrink-0">
+                        {c.copyable && (
+                          <button
+                            type="button"
+                            onClick={(e) => handleCopy(e, c.copyable!, c.label)}
+                            title={`Copiar ${c.label}`}
+                            aria-label={`Copiar ${c.label}`}
+                            className="inline-flex items-center gap-1 rounded-lg border border-border/70 bg-white/[0.04] px-2.5 py-1.5 font-mono text-xs text-muted-foreground transition hover:border-signal/50 hover:bg-signal/10 hover:text-signal"
+                          >
+                            {isCopied ? (
+                              <>
+                                <Check className="size-3 text-signal" aria-hidden="true" />
+                                <span className="text-signal text-[11px]">Copiado</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="size-3" aria-hidden="true" />
+                                <span className="hidden sm:inline text-[11px]">Copiar</span>
+                              </>
+                            )}
+                          </button>
+                        )}
+
+                        <a
+                          href={c.href}
+                          target={c.external ? '_blank' : undefined}
+                          rel={c.external ? 'noopener noreferrer' : undefined}
+                          aria-label={`Abrir ${c.label}`}
+                          className="grid size-8 place-items-center rounded-lg text-muted-foreground transition hover:text-signal"
+                        >
+                          <ArrowUpRight className="size-4 transition group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 group-hover/link:text-signal" aria-hidden="true" />
+                        </a>
+                      </div>
+                    </div>
                   </li>
                 )
               })}
               <li className="flex items-center gap-4 px-5 py-2 text-sm text-muted-foreground">
-                <MapPin className="size-4 text-signal" aria-hidden="true" />
+                <MapPin className="size-4 text-signal shrink-0" aria-hidden="true" />
                 {profile.location}
               </li>
             </ul>

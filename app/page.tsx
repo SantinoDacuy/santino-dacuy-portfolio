@@ -1,5 +1,6 @@
 import { ParticleField } from '@/components/effects/ParticleField'
 import { CustomCursor } from '@/components/effects/custom-cursor'
+import { Preloader } from '@/components/effects/preloader'
 import { ScrollAnimations } from '@/components/effects/scroll-animations'
 import { SiteNav } from '@/components/site-nav'
 import { Hero } from '@/components/hero'
@@ -12,6 +13,7 @@ import { Contact } from '@/components/contact'
 export default function Page() {
   return (
     <>
+      <Preloader />
       <ParticleField />
       <CustomCursor />
       <SiteNav />

@@ -10,6 +10,8 @@ export const profile = {
   phoneHref: 'tel:+543442531963',
   linkedin: 'https://www.linkedin.com/in/santino-dacuy',
   linkedinLabel: 'Santino Dacuy',
+  github: 'https://github.com/SantinoDacuy',
+  githubLabel: 'SantinoDacuy',
   cv: '/Santino Dacuy CV Analista.pdf',
 }
 
@@ -41,6 +43,8 @@ export const about = {
   ],
 }
 
+export type ProjectCategory = 'todos' | 'fullstack' | 'data' | 'backend-ia'
+
 export type Project = {
   id: string
   index: string
@@ -48,6 +52,8 @@ export type Project = {
   subtitle: string
   year?: string
   kind: string
+  category: 'fullstack' | 'data' | 'backend-ia'
+  badge?: string
   description: string
   bullets: string[]
   stack: string[]
@@ -63,6 +69,8 @@ export const projects: Project[] = [
     title: 'Mate Único',
     subtitle: 'E-commerce · Proyecto Final de Carrera (Tesis)',
     kind: 'Tesis',
+    category: 'fullstack',
+    badge: 'Tesis Final · Aprobada',
     description:
       'Plataforma de venta online construida de cero para digitalizar un negocio de mates (productos individuales y combos).',
     bullets: [
@@ -84,6 +92,8 @@ export const projects: Project[] = [
     subtitle: 'Data Warehouse & Business Intelligence',
     year: '2026',
     kind: 'BI / DW',
+    category: 'data',
+    badge: 'Data Warehouse',
     description:
       'Proyecto grupal de la materia Bases de Datos Avanzadas, enfocado en experiencia del cliente y fidelización.',
     bullets: [
@@ -127,6 +137,8 @@ export const projects: Project[] = [
     title: 'API de Gestión Aeroportuaria',
     subtitle: 'Backend NoSQL · Proyecto individual',
     kind: 'NoSQL',
+    category: 'backend-ia',
+    badge: 'Docker + Redis GEO',
     description:
       'API REST para gestión de aeropuertos con persistencia NoSQL, geolocalización y ranking de popularidad.',
     bullets: [
@@ -147,6 +159,8 @@ export const projects: Project[] = [
     title: 'Clasificador de Frutas',
     subtitle: 'Red Neuronal ART1 · Trabajo final integrador',
     kind: 'IA',
+    category: 'backend-ia',
+    badge: 'Liderazgo de Equipo (5)',
     description:
       'Trabajo final integrador de Redes Neuronales / IA, bajo supervisión de la Dra. Daniela López De Luise.',
     bullets: [
@@ -165,6 +179,8 @@ export const projects: Project[] = [
     title: 'Replicación de Bases de Datos Distribuidas',
     subtitle: 'PostgreSQL · Replicación lógica',
     kind: 'Distribuidas',
+    category: 'data',
+    badge: 'Alta Disponibilidad',
     description: 'Arquitectura maestro/esclavos con replicación lógica sobre tres nodos simulados.',
     bullets: [
       'Implementación de replicación lógica maestro/esclavos sobre tres nodos simulados.',
@@ -174,38 +190,83 @@ export const projects: Project[] = [
   },
 ]
 
-export const skills: { category: string; items: string[] }[] = [
+export type SkillCategory = {
+  category: string
+  items: { name: string; core?: boolean }[]
+}
+
+export const skills: SkillCategory[] = [
   {
     category: 'Desarrollo',
-    items: ['Python (POO, scripts)', 'JavaScript', 'HTML', 'CSS', 'Node.js / Express', 'Flask', 'Git y GitHub', 'Patrones de diseño (Singleton, Observer, Proxy)'],
+    items: [
+      { name: 'Node.js / Express', core: true },
+      { name: 'Python (POO, scripts)', core: true },
+      { name: 'JavaScript / React', core: true },
+      { name: 'Git y GitHub', core: true },
+      { name: 'Flask' },
+      { name: 'HTML & CSS' },
+      { name: 'Patrones de diseño (Singleton, Observer, Proxy)' },
+    ],
   },
   {
     category: 'Bases de Datos Relacionales',
-    items: ['SQL (PostgreSQL, MySQL, SQLite)', 'Modelado dimensional (esquema estrella)', 'Diseño de ETL (staging, DDL/DML, claves subrogadas)'],
+    items: [
+      { name: 'PostgreSQL', core: true },
+      { name: 'SQL avanzado (Triggers, Vistas, Diccionarios)', core: true },
+      { name: 'Modelado dimensional (esquema estrella)', core: true },
+      { name: 'Diseño de ETL (staging, DDL/DML, claves subrogadas)' },
+      { name: 'MySQL & SQLite' },
+    ],
   },
   {
     category: 'Bases de Datos NoSQL y Distribuidas',
-    items: ['MongoDB', 'Redis (GEO, sorted sets, TTL)', 'Replicación lógica en PostgreSQL (publish/subscribe)'],
+    items: [
+      { name: 'MongoDB', core: true },
+      { name: 'Redis (GEO, sorted sets, TTL)', core: true },
+      { name: 'Replicación lógica PostgreSQL (Pub/Sub)', core: true },
+    ],
   },
   {
     category: 'Business Intelligence y Datos',
-    items: ['Tableau', 'Definición de reglas de negocio', 'Control de calidad e integridad de datos'],
+    items: [
+      { name: 'Tableau', core: true },
+      { name: 'Control de calidad e integridad de datos', core: true },
+      { name: 'Definición de reglas de negocio' },
+    ],
   },
   {
     category: 'Inteligencia Artificial',
-    items: ['Redes neuronales', 'Arquitectura ART1'],
+    items: [
+      { name: 'Redes neuronales', core: true },
+      { name: 'Arquitectura ART1' },
+      { name: 'Certificación AWS AI Practitioner (en formación)' },
+    ],
   },
   {
     category: 'Redes y Sistemas',
-    items: ['Modelo TCP/IP', 'Configuración básica de redes / router', 'Virtualización (VirtualBox)', 'Mantenimiento y diagnóstico de PCs', 'Armado de hardware'],
+    items: [
+      { name: 'Modelo TCP/IP' },
+      { name: 'Configuración básica de redes / router' },
+      { name: 'Virtualización (VirtualBox)' },
+      { name: 'Mantenimiento y diagnóstico de hardware' },
+    ],
   },
   {
     category: 'Herramientas',
-    items: ['Docker / Docker Compose', 'pgAdmin', 'Leaflet.js', 'GitHub'],
+    items: [
+      { name: 'Docker / Docker Compose', core: true },
+      { name: 'pgAdmin', core: true },
+      { name: 'Leaflet.js' },
+      { name: 'Figma' },
+    ],
   },
   {
     category: 'Integraciones y APIs de terceros',
-    items: ['Mercado Pago (pagos online)', 'Google OAuth (autenticación)', 'Strapi (CMS headless)'],
+    items: [
+      { name: 'Mercado Pago (pagos online)', core: true },
+      { name: 'Google OAuth (autenticación)', core: true },
+      { name: 'Strapi (CMS headless)' },
+    ],
   },
 ]
 

@@ -19,7 +19,34 @@ export const metadata: Metadata = {
   title: 'Santino Dacuy — Analista en Sistemas de Información',
   description:
     'Portafolio de Santino Dacuy, Analista en Sistemas de Información con perfil full-stack orientado a backend y bases de datos. Concepción del Uruguay, Entre Ríos, Argentina.',
-  generator: 'v0.app',
+  keywords: [
+    'Santino Dacuy',
+    'Analista en Sistemas',
+    'Desarrollador Backend',
+    'Full Stack Developer',
+    'PostgreSQL',
+    'Node.js',
+    'React',
+    'Data Warehouse',
+    'Concepción del Uruguay',
+    'Argentina'
+  ],
+  authors: [{ name: 'Santino Dacuy' }],
+  creator: 'Santino Dacuy',
+  openGraph: {
+    type: 'website',
+    locale: 'es_AR',
+    title: 'Santino Dacuy — Analista en Sistemas de Información',
+    description:
+      'Desarrollo full-stack con foco en backend, bases de datos y arquitectura de sistemas. Buscando mi primera oportunidad profesional.',
+    siteName: 'Santino Dacuy Portfolio',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Santino Dacuy — Analista en Sistemas de Información',
+    description:
+      'Desarrollo full-stack con foco en backend, bases de datos y arquitectura de sistemas.',
+  },
   icons: {
     icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
     apple: '/apple-icon.png',

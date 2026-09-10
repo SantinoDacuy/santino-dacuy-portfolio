@@ -21,7 +21,8 @@ export function ParticleField() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     container.appendChild(renderer.domElement)
 
-    const count = 900
+    // 1. Campo base de estrellas sutiles (limpio y sin sobrecargar)
+    const count = 750
     const geometry = new THREE.BufferGeometry()
     const positions = new Float32Array(count * 3)
     const colors = new Float32Array(count * 3)
@@ -30,9 +31,10 @@ export function ParticleField() {
     const colorViolet = new THREE.Color('#8b5cf6')
 
     for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 20
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 14
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 10
+      positions[i * 3] = (Math.random() - 0.5) * 22
+      positions[i * 3 + 1] = (Math.random() - 0.5) * 15
+      // Mantenemos las partículas por detrás para que el texto siempre sea legible
+      positions[i * 3 + 2] = -Math.random() * 8
 
       const col = Math.random() > 0.5 ? colorCyan : colorViolet
       colors[i * 3] = col.r
@@ -44,16 +46,70 @@ export function ParticleField() {
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
 
     const material = new THREE.PointsMaterial({
-      size: 0.035,
+      size: 0.038,
       vertexColors: true,
       transparent: true,
-      opacity: 0.7,
+      opacity: 0.65,
       blending: THREE.AdditiveBlending,
-      depthWrite: false
+      depthWrite: false,
     })
 
     const points = new THREE.Points(geometry, material)
     scene.add(points)
+
+    // 2. Orbes luminosos sutiles ("pelotitas que brillan") en profundidad
+    // Muy pocas (~36) para no sobrecargar ni interferir con la lectura
+    const orbCount = 36
+    const orbGeo = new THREE.BufferGeometry()
+    const orbPositions = new Float32Array(orbCount * 3)
+    const orbColors = new Float32Array(orbCount * 3)
+    const orbPhases = new Float32Array(orbCount) // Para parpadeo / respiración independiente
+
+    // Textura circular con halo suave difuso
+    const canvas = document.createElement('canvas')
+    canvas.width = 64
+    canvas.height = 64
+    const ctx = canvas.getContext('2d')
+    if (ctx) {
+      const grad = ctx.createRadialGradient(32, 32, 0, 32, 32, 32)
+      grad.addColorStop(0, 'rgba(255, 255, 255, 1)')
+      grad.addColorStop(0.2, 'rgba(34, 211, 238, 0.8)')
+      grad.addColorStop(0.55, 'rgba(139, 92, 246, 0.3)')
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0)')
+      ctx.fillStyle = grad
+      ctx.fillRect(0, 0, 64, 64)
+    }
+    const orbTexture = new THREE.CanvasTexture(canvas)
+
+    for (let i = 0; i < orbCount; i++) {
+      orbPositions[i * 3] = (Math.random() - 0.5) * 24
+      orbPositions[i * 3 + 1] = (Math.random() - 0.5) * 16
+      // Bien al fondo (-3 a -9) para que nunca tape texto
+      orbPositions[i * 3 + 2] = -3 - Math.random() * 6
+
+      const col = Math.random() > 0.45 ? colorCyan : colorViolet
+      orbColors[i * 3] = col.r
+      orbColors[i * 3 + 1] = col.g
+      orbColors[i * 3 + 2] = col.b
+
+      orbPhases[i] = Math.random() * Math.PI * 2
+    }
+
+    orbGeo.setAttribute('position', new THREE.BufferAttribute(orbPositions, 3))
+    orbGeo.setAttribute('color', new THREE.BufferAttribute(orbColors, 3))
+
+    const orbMaterial = new THREE.PointsMaterial({
+      size: 0.26,
+      map: orbTexture,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.75,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+
+    const orbs = new THREE.Points(orbGeo, orbMaterial)
+    scene.add(orbs)
 
     const mouse = { x: 0, y: 0 }
     const onMove = (e: PointerEvent) => {
@@ -76,14 +132,24 @@ export function ParticleField() {
       raf = requestAnimationFrame(animate)
       const t = clock.getElapsedTime()
 
-      points.rotation.y = t * 0.02
-      points.rotation.x = Math.sin(t * 0.05) * 0.05
+      // Rotación suave del campo base
+      points.rotation.y = t * 0.015
+      points.rotation.x = Math.sin(t * 0.04) * 0.03
 
-      points.position.x += (mouse.x * 0.4 - points.position.x) * 0.02
-      points.position.y += (-mouse.y * 0.4 - points.position.y) * 0.02
+      // Los orbes luminosos flotan y respiran con sutil brillo variable
+      orbs.rotation.y = t * 0.012
+      orbs.rotation.x = Math.cos(t * 0.03) * 0.02
+      orbMaterial.opacity = 0.65 + Math.sin(t * 1.8) * 0.15
 
-      camera.position.x += (mouse.x * 0.6 - camera.position.x) * 0.03
-      camera.position.y += (-mouse.y * 0.6 - camera.position.y) * 0.03
+      // Parallax suave al mover el mouse
+      points.position.x += (mouse.x * 0.35 - points.position.x) * 0.02
+      points.position.y += (-mouse.y * 0.35 - points.position.y) * 0.02
+
+      orbs.position.x += (mouse.x * 0.5 - orbs.position.x) * 0.015
+      orbs.position.y += (-mouse.y * 0.5 - orbs.position.y) * 0.015
+
+      camera.position.x += (mouse.x * 0.4 - camera.position.x) * 0.025
+      camera.position.y += (-mouse.y * 0.4 - camera.position.y) * 0.025
       camera.lookAt(0, 0, 0)
 
       renderer.render(scene, camera)
@@ -97,6 +163,9 @@ export function ParticleField() {
       renderer.dispose()
       geometry.dispose()
       material.dispose()
+      orbGeo.dispose()
+      orbMaterial.dispose()
+      orbTexture.dispose()
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement)
       }

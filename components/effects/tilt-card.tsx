@@ -54,7 +54,17 @@ export function TiltCard({ children, className, max = 7, scale = 1.015 }: TiltCa
       )}
       style={{ transform: 'perspective(1000px)' }}
     >
+      {/* Outer interactive spotlight border glow */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -inset-[1px] rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100 -z-10"
+        style={{
+          background:
+            'radial-gradient(350px circle at var(--mx, 50%) var(--my, 50%), oklch(0.84 0.14 190 / 0.35), transparent 70%)',
+        }}
+      />
       {children}
+      {/* Inner sheen reflection following cursor */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 rounded-[inherit] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
