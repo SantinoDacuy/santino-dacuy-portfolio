@@ -84,6 +84,10 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: 'cover',
   colorScheme: 'dark',
   themeColor: '#07090f',
 }
@@ -135,14 +139,14 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={`dark ${sans.variable} ${mono.variable}`}>
+    <html lang="es" className={`dark ${sans.variable} ${mono.variable} overflow-x-hidden`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="antialiased font-sans">
+      <body className="antialiased font-sans overflow-x-hidden min-h-screen relative">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

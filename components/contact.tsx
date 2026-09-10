@@ -55,20 +55,20 @@ export function Contact() {
   }
 
   return (
-    <section id="contacto" className="relative mx-auto max-w-6xl px-5 py-24 md:px-8 md:py-32">
+    <section id="contacto" className="relative mx-auto max-w-6xl px-5 pt-20 pb-12 md:pt-28 md:pb-16">
       <div className="reveal">
-        <TiltCard max={2} scale={1.005} className="glass overflow-hidden rounded-3xl p-8 md:p-14">
+        <TiltCard max={2} scale={1.005} className="glass overflow-hidden rounded-3xl p-6 sm:p-8 md:p-14">
           <div aria-hidden="true" className="grid-lines pointer-events-none absolute inset-0 [mask-image:radial-gradient(ellipse_at_bottom_right,black,transparent_70%)]" />
-          <div className="relative grid gap-10 lg:grid-cols-2">
+          <div className="relative grid gap-8 lg:gap-10 lg:grid-cols-2">
             <div>
               <p className="font-mono text-xs tracking-[0.2em] text-signal">05 / CONTACTO</p>
-              <h2 className="mt-5 text-balance text-3xl font-medium tracking-tight md:text-5xl">
+              <h2 className="mt-4 text-balance text-2xl sm:text-3xl font-medium tracking-tight md:text-5xl">
                 Busco mi primera oportunidad profesional en sistemas.
               </h2>
-              <p className="mt-5 max-w-md text-pretty text-muted-foreground md:text-lg">
+              <p className="mt-4 max-w-md text-pretty text-sm sm:text-base text-muted-foreground md:text-lg">
                 Backend, bases de datos y arquitectura. Si tu equipo necesita a alguien con base sólida y ganas de crecer, hablemos.
               </p>
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-6 flex flex-wrap gap-3">
                 <Magnetic>
                   <a
                     href={`mailto:${profile.email}`}
@@ -91,26 +91,26 @@ export function Contact() {
               </div>
             </div>
 
-            <ul className="flex flex-col gap-3 self-center">
+            <ul className="flex flex-col gap-2.5 self-center w-full">
               {channels.map((c) => {
                 const Icon = c.icon
                 const isCopied = copiedKey === c.label
 
                 return (
                   <li key={c.label}>
-                    <div className="group/link flex items-center justify-between gap-4 rounded-2xl border border-border bg-white/[0.02] px-5 py-4 transition hover:border-signal/40 hover:bg-signal/[0.06]">
+                    <div className="group/link flex items-center justify-between gap-3 rounded-2xl border border-border bg-white/[0.02] p-3.5 sm:px-5 sm:py-4 transition hover:border-signal/40 hover:bg-signal/[0.06]">
                       <a
                         href={c.href}
                         target={c.external ? '_blank' : undefined}
                         rel={c.external ? 'noopener noreferrer' : undefined}
-                        className="flex flex-1 items-center gap-4 min-w-0"
+                        className="flex flex-1 items-center gap-3 min-w-0"
                       >
-                        <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-signal/20 bg-signal/10 text-signal">
+                        <span className="grid size-9 sm:size-10 shrink-0 place-items-center rounded-xl border border-signal/20 bg-signal/10 text-signal">
                           <Icon className="size-4" aria-hidden="true" />
                         </span>
                         <span className="min-w-0">
-                          <span className="block font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{c.label}</span>
-                          <span className="block truncate text-sm md:text-base font-mono">{c.value}</span>
+                          <span className="block font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{c.label}</span>
+                          <span className="block truncate text-xs sm:text-sm md:text-base font-mono">{c.value}</span>
                         </span>
                       </a>
 
@@ -121,12 +121,12 @@ export function Contact() {
                             onClick={(e) => handleCopy(e, c.copyable!, c.label)}
                             title={`Copiar ${c.label}`}
                             aria-label={`Copiar ${c.label}`}
-                            className="inline-flex items-center gap-1 rounded-lg border border-border/70 bg-white/[0.04] px-2.5 py-1.5 font-mono text-xs text-muted-foreground transition hover:border-signal/50 hover:bg-signal/10 hover:text-signal"
+                            className="inline-flex items-center gap-1 rounded-lg border border-border/70 bg-white/[0.04] px-2 py-1 sm:px-2.5 sm:py-1.5 font-mono text-xs text-muted-foreground transition hover:border-signal/50 hover:bg-signal/10 hover:text-signal"
                           >
                             {isCopied ? (
                               <>
                                 <Check className="size-3 text-signal" aria-hidden="true" />
-                                <span className="text-signal text-[11px]">Copiado</span>
+                                <span className="text-signal text-[10px] sm:text-[11px]">Copiado</span>
                               </>
                             ) : (
                               <>
@@ -151,8 +151,8 @@ export function Contact() {
                   </li>
                 )
               })}
-              <li className="flex items-center gap-4 px-5 py-2 text-sm text-muted-foreground">
-                <MapPin className="size-4 text-signal shrink-0" aria-hidden="true" />
+              <li className="flex items-center gap-2 px-3 py-1.5 text-xs sm:text-sm text-muted-foreground font-mono">
+                <MapPin className="size-3.5 text-signal shrink-0" aria-hidden="true" />
                 {profile.location}
               </li>
             </ul>
@@ -160,7 +160,7 @@ export function Contact() {
         </TiltCard>
       </div>
 
-      <footer className="mt-16 flex flex-col items-center justify-between gap-3 border-t border-border pt-8 font-mono text-xs text-muted-foreground md:flex-row">
+      <footer className="mt-12 flex flex-col items-center justify-between gap-2 border-t border-border/50 pt-6 font-mono text-[11px] sm:text-xs text-muted-foreground md:flex-row">
         <p>
           © {new Date().getFullYear()} {profile.name} · {profile.role}
         </p>

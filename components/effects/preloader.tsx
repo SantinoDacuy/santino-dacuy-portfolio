@@ -132,7 +132,7 @@ export function Preloader() {
   return (
     <div
       style={{ perspective: '1400px' }}
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center px-4 sm:px-8 transition-all duration-1000 ease-in-out ${
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center p-4 sm:p-8 overflow-hidden transition-all duration-1000 ease-in-out ${
         isFinished
           ? 'bg-transparent backdrop-blur-0 pointer-events-none'
           : 'bg-background/95 backdrop-blur-xl pointer-events-auto'
@@ -170,7 +170,7 @@ export function Preloader() {
 
       {/* Main Glass Experience Center with Cinematic 3D Spin & Depth Zoom Exit */}
       <div
-        className={`relative w-full max-w-2xl max-h-[92svh] overflow-y-auto sm:overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 glass p-5 sm:p-8 md:p-10 shadow-[0_30px_90px_rgba(0,0,0,0.9)] z-10 transition-all duration-1100 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`relative mx-auto w-full max-w-lg sm:max-w-2xl max-h-[90svh] overflow-y-auto sm:overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 glass p-5 sm:p-8 md:p-10 shadow-[0_30px_90px_rgba(0,0,0,0.9)] z-10 transition-all duration-1100 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isFinished
             ? 'scale-50 rotate-y-[65deg] -rotate-x-12 translate-y-16 blur-md opacity-0'
             : 'scale-100 rotate-y-0 rotate-x-0 translate-y-0 blur-0 opacity-100'
