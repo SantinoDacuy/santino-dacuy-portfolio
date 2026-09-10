@@ -71,11 +71,11 @@ export function SiteNav() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-40">
-      {/* Scroll Progress Indicator Line */}
+      {/* Scroll Progress Indicator Line (GPU composited transform) */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-white/[0.03] z-50 pointer-events-none">
         <div
-          className="h-full bg-gradient-to-r from-signal via-cyan-400 to-violet-500 shadow-[0_0_8px_rgba(var(--signal),0.6)] transition-[width] duration-150 ease-out"
-          style={{ width: `${scrollProgress}%` }}
+          className="h-full w-full bg-gradient-to-r from-signal via-cyan-400 to-violet-500 shadow-[0_0_8px_rgba(var(--signal),0.6)] origin-left will-change-transform"
+          style={{ transform: `scaleX(${scrollProgress / 100})` }}
         />
       </div>
 

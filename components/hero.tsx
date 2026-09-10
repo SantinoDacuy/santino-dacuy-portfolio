@@ -95,6 +95,7 @@ export function Hero() {
               alt="Santino Dacuy"
               fill
               priority
+              sizes="(max-width: 1024px) 240px, (max-width: 1280px) 300px, 340px"
               className="object-contain drop-shadow-[0_10px_35px_rgba(var(--signal),0.35)] transition-all duration-700 ease-out group-hover:-translate-y-2"
             />
           </div>

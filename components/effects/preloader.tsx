@@ -186,6 +186,7 @@ export function Preloader() {
                 alt="Santino Dacuy"
                 fill
                 priority
+                sizes="48px"
                 className="object-cover object-center"
               />
             </div>
@@ -212,6 +213,7 @@ export function Preloader() {
                 alt="Santino Dacuy"
                 fill
                 priority
+                sizes="(max-width: 768px) 160px, 200px"
                 className="object-cover object-center filter contrast-[1.04] brightness-[0.98] transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/20 to-transparent" />

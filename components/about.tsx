@@ -34,8 +34,7 @@ export function About() {
                   src="/SANyLEGO.jpeg"
                   alt="Santino Dacuy con LEGO"
                   fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 370px"
+                  sizes="(max-width: 640px) 340px, (max-width: 1024px) 370px, 400px"
                   className="object-cover object-center transition-all duration-700 ease-out group-hover:scale-105 filter contrast-[1.03] brightness-[0.98]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/25 to-transparent" />
