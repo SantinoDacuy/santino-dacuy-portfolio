@@ -170,7 +170,7 @@ export function Preloader() {
 
       {/* Main Glass Experience Center with Cinematic 3D Spin & Depth Zoom Exit */}
       <div
-        className={`relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/10 glass p-6 sm:p-10 shadow-[0_30px_90px_rgba(0,0,0,0.9)] z-10 transition-all duration-1100 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`relative w-full max-w-2xl max-h-[92svh] overflow-y-auto sm:overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 glass p-5 sm:p-8 md:p-10 shadow-[0_30px_90px_rgba(0,0,0,0.9)] z-10 transition-all duration-1100 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isFinished
             ? 'scale-50 rotate-y-[65deg] -rotate-x-12 translate-y-16 blur-md opacity-0'
             : 'scale-100 rotate-y-0 rotate-x-0 translate-y-0 blur-0 opacity-100'
@@ -180,10 +180,35 @@ export function Preloader() {
         {/* Subtle holographic cyber scan line animation across the card */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-signal/[0.04] to-transparent animate-pulse" />
 
-        <div className="grid gap-8 sm:grid-cols-12 items-center">
+        <div className="grid gap-5 sm:gap-8 sm:grid-cols-12 items-center">
           
-          {/* Left Column: Photo Card with Glowing Aura */}
-          <div className="sm:col-span-5 flex flex-col items-center">
+          {/* Mobile compact header (visible only on small phones) */}
+          <div className="flex sm:hidden items-center gap-3.5 pb-2 border-b border-white/10">
+            <div className="relative size-14 shrink-0 overflow-hidden rounded-xl border border-signal/40 shadow-md">
+              <Image
+                src="/SANyLEGO.jpeg"
+                alt="Santino Dacuy"
+                fill
+                priority
+                className="object-cover object-center"
+              />
+            </div>
+            <div className="min-w-0 flex-1">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-signal/30 bg-signal/10 px-2 py-0.5 font-mono text-[9px] text-signal mb-1">
+                <span className="size-1 rounded-full bg-signal animate-ping" />
+                <span>SD-SYSTEM // BOOT</span>
+              </div>
+              <h1 className="text-lg font-semibold tracking-tight text-foreground truncate">
+                Santino <span className="text-signal glow-text">Dacuy</span>
+              </h1>
+              <p className="font-mono text-[10px] text-muted-foreground truncate">
+                Analista en Sistemas · UADER
+              </p>
+            </div>
+          </div>
+
+          {/* Desktop Left Column: Photo Card with Glowing Aura (Hidden on small mobile to give room) */}
+          <div className="hidden sm:flex sm:col-span-5 flex-col items-center">
             <div className="group relative aspect-[3/4] w-full max-w-[210px] overflow-hidden rounded-2xl border border-white/15 shadow-2xl">
               {/* Pulsing halo behind photo */}
               <div className="absolute -inset-2 rounded-2xl bg-signal/25 blur-xl -z-10" />
@@ -236,16 +261,16 @@ export function Preloader() {
             </div>
           </div>
 
-          {/* Right Column: Interactive System Initialization Console */}
-          <div className="sm:col-span-7 flex flex-col justify-between space-y-5">
-            <div>
-              {/* Badge */}
+          {/* Right Column (Full width on mobile): Interactive System Console */}
+          <div className="sm:col-span-7 flex flex-col justify-between space-y-4 sm:space-y-5">
+            {/* Desktop Title Header */}
+            <div className="hidden sm:block">
               <div className="inline-flex items-center gap-2 rounded-full border border-signal/30 bg-signal/10 px-3 py-1 font-mono text-[11px] text-signal">
                 <span className="size-1.5 rounded-full bg-signal shadow-[0_0_8px] shadow-signal animate-ping" />
                 <span>SD-SYSTEM // BOOT SEQUENCE</span>
               </div>
 
-              <h1 className="mt-3 text-2xl sm:text-3xl font-semibold tracking-tight text-foreground text-pretty">
+              <h1 className="mt-2.5 text-2xl sm:text-3xl font-semibold tracking-tight text-foreground text-pretty">
                 Santino <span className="text-signal glow-text">Dacuy</span>
               </h1>
               <p className="font-mono text-xs text-muted-foreground mt-0.5">
@@ -253,26 +278,26 @@ export function Preloader() {
               </p>
             </div>
 
-            {/* Real-time Terminal Log Window - Fixed height to avoid container shifting */}
-            <div className="h-[178px] rounded-xl border border-white/5 bg-black/75 p-3.5 font-mono text-xs flex flex-col justify-between shadow-inner backdrop-blur-md overflow-hidden">
+            {/* Real-time Terminal Log Window - Fixed height & responsive */}
+            <div className="h-[155px] sm:h-[178px] rounded-xl border border-white/5 bg-black/75 p-3 sm:p-3.5 font-mono text-[11px] flex flex-col justify-between shadow-inner backdrop-blur-md overflow-hidden">
               <div className="flex items-center justify-between text-[10px] text-muted-foreground/60 border-b border-white/5 pb-1.5 shrink-0">
-                <span className="flex items-center gap-1.5">
-                  <Terminal className="size-3 text-signal" />
+                <span className="flex items-center gap-1.5 truncate">
+                  <Terminal className="size-3 text-signal shrink-0" />
                   consola_inicializacion.sh
                 </span>
-                <span className="text-signal/90 font-semibold tracking-wider">
-                  {isGranted ? 'STATUS: GRANTED' : isWaitingAuth ? 'STATUS: AWAITING_KEY' : 'STATUS: BOOTING'}
+                <span className="text-signal/90 font-semibold tracking-wider text-[9px] sm:text-[10px] shrink-0">
+                  {isGranted ? 'GRANTED' : isWaitingAuth ? 'WAITING' : 'BOOTING'}
                 </span>
               </div>
 
               <div className="space-y-1.5 flex-1 flex flex-col justify-start overflow-hidden pt-1">
                 {bootLogs.slice(0, logIndex + 1).map((log, i) => (
-                  <div key={i} className="flex items-center justify-between gap-2 text-[11px] animate-in fade-in slide-in-from-left-2 duration-300">
+                  <div key={i} className="flex items-center justify-between gap-1.5 text-[10px] sm:text-[11px] animate-in fade-in slide-in-from-left-2 duration-300">
                     <span className="text-muted-foreground truncate">
-                      <span className="text-signal mr-1.5">›</span>
+                      <span className="text-signal mr-1 shrink-0">›</span>
                       {log.text}
                     </span>
-                    <span className="shrink-0 text-[10px] font-semibold text-signal">
+                    <span className="shrink-0 text-[9px] sm:text-[10px] font-semibold text-signal">
                       [{log.status}]
                     </span>
                   </div>
@@ -282,12 +307,12 @@ export function Preloader() {
 
             {/* Glowing Dual Progress Bar */}
             <div>
-              <div className="flex items-center justify-between font-mono text-[11px] text-muted-foreground mb-1.5">
+              <div className="flex items-center justify-between font-mono text-[10px] sm:text-[11px] text-muted-foreground mb-1.5">
                 <span className="truncate pr-2">
                   {isGranted
-                    ? 'Acceso concedido. Abriendo entorno...'
+                    ? 'Acceso concedido...'
                     : isWaitingAuth
-                    ? 'Autenticación requerida para ingresar'
+                    ? 'Autenticación requerida'
                     : 'Cargando infraestructura...'}
                 </span>
                 <span className="text-signal font-semibold text-xs shrink-0">{Math.round(progress)}%</span>
@@ -306,50 +331,50 @@ export function Preloader() {
             </div>
 
             {/* Interactive Action Area */}
-            <div className="pt-2 flex flex-col items-center gap-3">
+            <div className="pt-1 flex flex-col items-center gap-2">
               {isGranted ? (
                 /* Éxito: Acceso Aceptado */
-                <div className="w-full flex items-center justify-center gap-2.5 rounded-full border border-emerald-500/50 bg-emerald-500/20 py-3 text-emerald-300 font-mono text-xs sm:text-sm font-semibold shadow-[0_0_30px_rgba(16,185,129,0.45)] animate-in zoom-in-95 duration-200">
+                <div className="w-full flex items-center justify-center gap-2 rounded-full border border-emerald-500/50 bg-emerald-500/20 py-2.5 sm:py-3 text-emerald-300 font-mono text-xs sm:text-sm font-semibold shadow-[0_0_30px_rgba(16,185,129,0.45)] animate-in zoom-in-95 duration-200">
                   <CheckCircle2 className="size-4 text-emerald-400 animate-bounce" />
                   <span>✓ ACCESO ACEPTADO · BIENVENIDO</span>
                 </div>
               ) : isWaitingAuth ? (
                 /* Botón Divertido de Acción Requerida */
-                <div className="w-full space-y-2">
+                <div className="w-full space-y-1.5">
                   <button
                     type="button"
                     onClick={handleAuthorize}
                     disabled={isScanning}
-                    className="w-full group relative inline-flex items-center justify-center gap-2.5 rounded-full bg-signal px-6 py-3 font-mono text-xs sm:text-sm font-semibold text-signal-foreground transition-all duration-300 hover:brightness-110 hover:shadow-[0_0_40px_rgba(var(--signal),0.75)] active:scale-98 cursor-pointer animate-in zoom-in-95"
+                    className="w-full group relative inline-flex items-center justify-center gap-2 rounded-full bg-signal px-4 sm:px-6 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-semibold text-signal-foreground transition-all duration-300 hover:brightness-110 hover:shadow-[0_0_40px_rgba(var(--signal),0.75)] active:scale-98 cursor-pointer animate-in zoom-in-95"
                   >
                     {isScanning ? (
                       <>
-                        <div className="size-4 rounded-full border-2 border-signal-foreground border-t-transparent animate-spin" />
-                        <span>Verificando acceso biométrico...</span>
+                        <div className="size-3.5 sm:size-4 rounded-full border-2 border-signal-foreground border-t-transparent animate-spin" />
+                        <span>Verificando biométrica...</span>
                       </>
                     ) : (
                       <>
-                        <Fingerprint className="size-4.5 transition-transform duration-200 group-hover:scale-110" />
-                        <span>[ Presioná para Desbloquear Acceso ]</span>
-                        <Unlock className="size-4 transition-transform duration-200 group-hover:rotate-12" />
+                        <Fingerprint className="size-4 sm:size-4.5 transition-transform duration-200 group-hover:scale-110" />
+                        <span>[ Desbloquear Acceso ]</span>
+                        <Unlock className="size-3.5 sm:size-4 transition-transform duration-200 group-hover:rotate-12" />
                       </>
                     )}
                   </button>
-                  <p className="font-mono text-[10px] text-center text-muted-foreground/60">
-                    * Confirmación de seguridad requerida para habilitar la terminal de sistemas
+                  <p className="font-mono text-[9px] sm:text-[10px] text-center text-muted-foreground/60">
+                    * Confirmación de seguridad requerida para entrar
                   </p>
                 </div>
               ) : (
                 /* Estado durante el arranque inicial */
-                <div className="w-full flex items-center justify-between">
-                  <span className="font-mono text-[11px] text-muted-foreground/60 flex items-center gap-2">
+                <div className="w-full flex items-center justify-between text-[10px] sm:text-[11px]">
+                  <span className="font-mono text-muted-foreground/60 flex items-center gap-1.5">
                     <Lock className="size-3 text-signal/70 animate-pulse" />
-                    Sincronizando protocolos...
+                    Sincronizando...
                   </span>
                   <button
                     type="button"
                     onClick={handleSkip}
-                    className="font-mono text-[11px] text-muted-foreground/60 transition-colors hover:text-signal cursor-pointer"
+                    className="font-mono text-muted-foreground/60 transition-colors hover:text-signal cursor-pointer"
                   >
                     [ Saltear ]
                   </button>
@@ -364,7 +389,7 @@ export function Preloader() {
 
       {/* Footer credits */}
       <div
-        className={`absolute bottom-6 font-mono text-[10px] text-muted-foreground/40 tracking-widest uppercase text-center transition-opacity duration-700 ${
+        className={`absolute bottom-3 sm:bottom-6 font-mono text-[9px] sm:text-[10px] text-muted-foreground/40 tracking-widest uppercase text-center px-4 transition-opacity duration-700 ${
           isFinished ? 'opacity-0' : 'opacity-100'
         }`}
       >
