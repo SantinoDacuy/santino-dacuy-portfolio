@@ -4,7 +4,7 @@ import { SiteNav } from '@/components/site-nav'
 import { Hero } from '@/components/hero'
 import { About } from '@/components/about'
 
-// Client visual effects loaded dynamically
+// Visual client effects loaded dynamically
 const ParticleField = dynamic(
   () => import('@/components/effects/ParticleField').then((mod) => mod.ParticleField)
 )
@@ -17,7 +17,7 @@ const ScrollAnimations = dynamic(
   () => import('@/components/effects/scroll-animations').then((mod) => mod.ScrollAnimations)
 )
 
-// Below-the-fold sections deferred to reduce bundle and main-thread work
+// Below-the-fold content sections deferred to reduce initial work
 const Projects = dynamic(
   () => import('@/components/projects').then((mod) => mod.Projects)
 )

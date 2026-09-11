@@ -1,20 +1,18 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import {
   Sparkles,
-  ArrowRight,
   ShieldCheck,
   Terminal,
-  Layers,
-  Database,
   Cpu,
   MapPin,
   Fingerprint,
   CheckCircle2,
   Lock,
   Unlock,
+  FastForward,
 } from 'lucide-react'
 
 const bootLogs = [
@@ -23,7 +21,7 @@ const bootLogs = [
   { text: 'Verificando modelos dimensionales & pipelines ETL...', status: 'READY' },
   { text: 'Autenticando credenciales de visitante...', status: 'VERIFIED' },
   { text: 'Cargando perfil profesional de Santino Dacuy...', status: 'DONE' },
-  { text: 'Control de acceso biométrico listo. Requiere confirmación.', status: 'STANDBY' },
+  { text: 'Control biométrico listo. Requiere confirmación.', status: 'STANDBY' },
 ]
 
 export function Preloader() {
@@ -34,41 +32,41 @@ export function Preloader() {
   const [isWaitingAuth, setIsWaitingAuth] = useState(false)
   const [isGranted, setIsGranted] = useState(false)
   const [isScanning, setIsScanning] = useState(false)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     const hasSeen = sessionStorage.getItem('sd_portfolio_loaded')
     if (hasSeen === 'true') {
       setShouldRender(false)
+      window.dispatchEvent(new CustomEvent('sd-preloader-complete'))
       return
     }
 
     document.body.style.overflow = 'hidden'
 
-    // Duración extendida y disfrutable: ~8.5 segundos con progresión orgánica y realista
-    const totalDuration = 8500
-    const intervalMs = 50
+    // Secuencia de inicialización ágil y dinámica: ~2.2 segundos
+    const totalDuration = 2200
+    const intervalMs = 40
     const totalTicks = totalDuration / intervalMs
     let currentTick = 0
 
-    const timer = setInterval(() => {
+    timerRef.current = setInterval(() => {
       currentTick += 1
       const rawProgress = (currentTick / totalTicks) * 100
 
-      // Progresión orgánica con pausas de compilación / verificación realistas
+      // Progresión orgánica con micro-pausas realistas
       let adjustedProgress = rawProgress
-      if (rawProgress > 32 && rawProgress < 46) {
-        // Pausa breve en verificación de bases de datos
-        adjustedProgress = 32 + (rawProgress - 32) * 0.4
-      } else if (rawProgress > 65 && rawProgress < 80) {
-        // Pausa breve en carga de pipelines y arquitectura
-        adjustedProgress = 48 + (rawProgress - 65) * 0.55
+      if (rawProgress > 35 && rawProgress < 50) {
+        adjustedProgress = 35 + (rawProgress - 35) * 0.5
+      } else if (rawProgress > 70 && rawProgress < 85) {
+        adjustedProgress = 52 + (rawProgress - 70) * 0.6
       }
 
-      setProgress((_) => {
+      setProgress(() => {
         const next = Math.min(100, adjustedProgress)
 
         if (next >= 100 || currentTick >= totalTicks) {
-          clearInterval(timer)
+          if (timerRef.current) clearInterval(timerRef.current)
           setIsWaitingAuth(true)
           setLogIndex(5)
           return 100
@@ -85,7 +83,7 @@ export function Preloader() {
     }, intervalMs)
 
     return () => {
-      clearInterval(timer)
+      if (timerRef.current) clearInterval(timerRef.current)
       document.body.style.overflow = ''
     }
   }, [])
@@ -96,82 +94,89 @@ export function Preloader() {
 
     setIsScanning(true)
 
-    // Efecto de escaneo biométrico con feedback visual (1s)
+    // Respuesta biométrica rápida y táctil (~240ms)
     setTimeout(() => {
       setIsScanning(false)
       setIsGranted(true)
 
-      // Mensaje de éxito "ACCESO ACEPTADO" y transición con giro 3D hacia el sitio
+      // Confirmación y transición fluida (< 600ms totales)
       setTimeout(() => {
         setIsFinished(true)
         sessionStorage.setItem('sd_portfolio_loaded', 'true')
-        // Notificamos al window para orquestar la entrada cinematográfica del Hero
         window.dispatchEvent(new CustomEvent('sd-preloader-complete'))
+        document.body.style.overflow = ''
 
         setTimeout(() => {
-          document.body.style.overflow = ''
           setShouldRender(false)
-        }, 1300)
-      }, 1200)
-    }, 950)
+        }, 400)
+      }, 260)
+    }, 240)
   }
 
-  // Opción rápida para omitir si tiene prisa
+  // Opción instantánea para omitir/saltear en cualquier momento
   const handleSkip = () => {
+    if (timerRef.current) clearInterval(timerRef.current)
     setIsFinished(true)
     sessionStorage.setItem('sd_portfolio_loaded', 'true')
     window.dispatchEvent(new CustomEvent('sd-preloader-complete'))
+    document.body.style.overflow = ''
+
     setTimeout(() => {
-      document.body.style.overflow = ''
       setShouldRender(false)
-    }, 700)
+    }, 250)
   }
 
   if (!shouldRender) return null
 
   return (
     <div
-      style={{ perspective: '1400px' }}
-      className={`fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-8 select-none transition-all duration-1000 ease-in-out ${
+      className={`fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-8 select-none transition-opacity duration-500 ease-out transform-gpu ${
         isFinished
-          ? 'bg-transparent backdrop-blur-0 pointer-events-none'
-          : 'bg-background/98 backdrop-blur-xl pointer-events-auto'
+          ? 'opacity-0 pointer-events-none'
+          : 'opacity-100 bg-background/98 backdrop-blur-xl pointer-events-auto'
       }`}
     >
+      {/* Botón flotante para SALTEAR siempre visible y accesible (mínimo 44px de área táctil) */}
+      <button
+        type="button"
+        onClick={handleSkip}
+        aria-label="Saltear pantalla de bienvenida"
+        className="absolute top-3 right-3 sm:top-5 sm:right-6 z-30 inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-2 font-mono text-xs text-muted-foreground transition-all duration-200 hover:border-signal/50 hover:bg-signal/15 hover:text-signal active:scale-95 cursor-pointer backdrop-blur-md shadow-lg"
+      >
+        <span>Saltear</span>
+        <FastForward className="size-3.5 text-signal" />
+      </button>
+
       {/* Dynamic ambient backgrounds */}
       <div
-        className={`pointer-events-none absolute inset-0 overflow-hidden transition-opacity duration-1000 ${
+        className={`pointer-events-none absolute inset-0 overflow-hidden transition-opacity duration-500 ${
           isFinished ? 'opacity-0' : 'opacity-100'
         }`}
       >
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[580px] h-[280px] sm:h-[580px] rounded-full bg-signal/15 blur-[120px] animate-pulse" />
-        <div className="absolute bottom-10 right-1/4 w-[220px] sm:w-[420px] h-[220px] sm:h-[420px] rounded-full bg-violet-600/15 blur-[130px]" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[580px] h-[280px] sm:h-[580px] rounded-full bg-signal/15 blur-[100px] animate-pulse" />
+        <div className="absolute bottom-10 right-1/4 w-[220px] sm:w-[420px] h-[220px] sm:h-[420px] rounded-full bg-violet-600/15 blur-[100px]" />
 
         {/* Concentric Cyber Radar Rings */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[700px] h-[300px] sm:h-[700px] rounded-full border border-signal/[0.08] animate-[spin_80s_linear_infinite]" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[240px] sm:w-[500px] h-[240px] sm:h-[500px] rounded-full border border-dashed border-signal/[0.12] animate-[spin_60s_linear_infinite_reverse]" />
 
         {/* Precision Grid */}
-        <div className="grid-lines absolute inset-0 opacity-30 [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_90%)]" />
+        <div className="grid-lines absolute inset-0 opacity-25 [mask-image:radial-gradient(ellipse_at_center,black_60%,transparent_90%)]" />
 
         {/* Top HUD Telemetry badges */}
-        <div className="absolute top-3 left-3 sm:top-6 sm:left-6 font-mono text-[9px] sm:text-[10px] text-signal/60 flex items-center gap-1.5">
+        <div className="absolute top-3.5 left-3 sm:top-5 sm:left-6 font-mono text-[9px] sm:text-[10px] text-signal/70 flex items-center gap-1.5">
           <span className="size-1.5 bg-signal rounded-full animate-ping" />
           <span>SD-SYSTEM // ONLINE</span>
         </div>
-        <div className="absolute top-3 right-3 sm:top-6 sm:right-6 font-mono text-[9px] sm:text-[10px] text-muted-foreground/50 tracking-wider">
-          <span>PORTFOLIO_OS</span>
-        </div>
       </div>
 
-      {/* Main Glass Center Card: strictly responsive and centered */}
+      {/* Main Glass Center Card: acelerado por hardware, sin transformaciones 3D pesadas */}
       <div
-        className={`relative w-full max-w-lg sm:max-w-xl md:max-w-2xl max-h-[92svh] flex flex-col justify-between overflow-y-auto sm:overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 glass p-4 sm:p-6 md:p-8 shadow-[0_25px_80px_rgba(0,0,0,0.9)] z-10 transition-all duration-1100 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`relative w-full max-w-lg sm:max-w-xl md:max-w-2xl max-h-[92svh] flex flex-col justify-between overflow-y-auto sm:overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 glass p-4 sm:p-6 md:p-8 shadow-[0_25px_80px_rgba(0,0,0,0.85)] z-10 transition-all duration-400 ease-out transform-gpu ${
           isFinished
-            ? 'scale-50 rotate-y-[65deg] -rotate-x-12 translate-y-16 blur-md opacity-0'
-            : 'scale-100 rotate-y-0 rotate-x-0 translate-y-0 blur-0 opacity-100'
+            ? 'scale-[0.97] -translate-y-2 opacity-0'
+            : 'scale-100 translate-y-0 opacity-100'
         }`}
-        style={{ transformStyle: 'preserve-3d' }}
       >
         {/* Holographic cyber scan line */}
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-signal/[0.04] to-transparent animate-pulse" />
@@ -214,7 +219,7 @@ export function Preloader() {
                 fill
                 priority
                 sizes="(max-width: 768px) 160px, 200px"
-                className="object-cover object-center filter contrast-[1.04] brightness-[0.98] transition-transform duration-700 group-hover:scale-105"
+                className="object-cover object-center filter contrast-[1.04] brightness-[0.98] transition-transform duration-500 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/20 to-transparent" />
 
@@ -272,7 +277,7 @@ export function Preloader() {
             </div>
 
             {/* Real-time Terminal Log Window */}
-            <div className="h-[150px] sm:h-[168px] rounded-xl border border-white/5 bg-black/75 p-2.5 sm:p-3 font-mono text-[10px] sm:text-[11px] flex flex-col justify-between shadow-inner backdrop-blur-md overflow-hidden w-full min-w-0">
+            <div className="h-[140px] sm:h-[160px] rounded-xl border border-white/5 bg-black/75 p-2.5 sm:p-3 font-mono text-[10px] sm:text-[11px] flex flex-col justify-between shadow-inner backdrop-blur-md overflow-hidden w-full min-w-0">
               <div className="flex items-center justify-between gap-2 text-[9px] sm:text-[10px] text-muted-foreground/60 border-b border-white/5 pb-1.5 shrink-0 min-w-0">
                 <span className="flex items-center gap-1.5 truncate min-w-0">
                   <Terminal className="size-3 text-signal shrink-0" />
@@ -283,9 +288,9 @@ export function Preloader() {
                 </span>
               </div>
 
-              <div className="space-y-1.5 flex-1 flex flex-col justify-start overflow-hidden pt-1 min-w-0">
+              <div className="space-y-1 flex-1 flex flex-col justify-start overflow-hidden pt-1 min-w-0">
                 {bootLogs.slice(0, logIndex + 1).map((log, i) => (
-                  <div key={i} className="flex items-center justify-between gap-2 text-[10px] sm:text-[11px] animate-in fade-in slide-in-from-left-2 duration-300 min-w-0">
+                  <div key={i} className="flex items-center justify-between gap-2 text-[10px] sm:text-[11px] animate-in fade-in slide-in-from-left-2 duration-200 min-w-0">
                     <span className="text-muted-foreground truncate min-w-0 flex-1" title={log.text}>
                       <span className="text-signal mr-1 shrink-0">›</span>
                       {log.text}
@@ -315,7 +320,7 @@ export function Preloader() {
 
               <div className="relative h-1.5 sm:h-2 w-full overflow-hidden rounded-full bg-white/[0.06] p-[1px] border border-white/10">
                 <div
-                  className={`h-full rounded-full transition-all duration-100 ease-out ${
+                  className={`h-full rounded-full transition-all duration-75 ease-out ${
                     isGranted
                       ? 'bg-gradient-to-r from-emerald-400 to-signal shadow-[0_0_20px_rgba(52,211,153,0.9)]'
                       : 'bg-gradient-to-r from-signal via-cyan-400 to-violet-500 shadow-[0_0_15px_rgba(var(--signal),0.9)]'
@@ -326,36 +331,43 @@ export function Preloader() {
             </div>
 
             {/* Action Area */}
-            <div className="pt-0.5 flex flex-col items-center gap-1.5 w-full min-w-0">
+            <div className="pt-0.5 flex flex-col items-center gap-2 w-full min-w-0">
               {isGranted ? (
-                <div className="w-full flex items-center justify-center gap-2 rounded-full border border-emerald-500/50 bg-emerald-500/20 py-2 sm:py-2.5 text-emerald-300 font-mono text-xs sm:text-sm font-semibold shadow-[0_0_25px_rgba(16,185,129,0.45)] animate-in zoom-in-95 duration-200">
-                  <CheckCircle2 className="size-3.5 sm:size-4 text-emerald-400 animate-bounce shrink-0" />
+                <div className="w-full flex items-center justify-center gap-2 rounded-full border border-emerald-500/50 bg-emerald-500/20 py-2.5 sm:py-3 text-emerald-300 font-mono text-xs sm:text-sm font-semibold shadow-[0_0_25px_rgba(16,185,129,0.45)] animate-in zoom-in-95 duration-150">
+                  <CheckCircle2 className="size-4 text-emerald-400 animate-bounce shrink-0" />
                   <span className="truncate">✓ ACCESO ACEPTADO · BIENVENIDO</span>
                 </div>
               ) : isWaitingAuth ? (
-                <div className="w-full space-y-1">
+                <div className="w-full space-y-2">
                   <button
                     type="button"
                     onClick={handleAuthorize}
                     disabled={isScanning}
-                    className="w-full group relative inline-flex items-center justify-center gap-2 rounded-full bg-signal px-3 sm:px-5 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-semibold text-signal-foreground transition-all duration-300 hover:brightness-110 hover:shadow-[0_0_35px_rgba(var(--signal),0.75)] active:scale-98 cursor-pointer animate-in zoom-in-95"
+                    className="w-full group relative inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full bg-signal px-4 sm:px-6 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-semibold text-signal-foreground transition-all duration-200 hover:brightness-110 hover:shadow-[0_0_35px_rgba(var(--signal),0.75)] active:scale-[0.98] cursor-pointer animate-in zoom-in-95"
                   >
                     {isScanning ? (
                       <>
-                        <div className="size-3.5 sm:size-4 rounded-full border-2 border-signal-foreground border-t-transparent animate-spin shrink-0" />
+                        <div className="size-4 rounded-full border-2 border-signal-foreground border-t-transparent animate-spin shrink-0" />
                         <span>Verificando biométrica...</span>
                       </>
                     ) : (
                       <>
-                        <Fingerprint className="size-4 sm:size-4.5 transition-transform duration-200 group-hover:scale-110 shrink-0" />
+                        <Fingerprint className="size-4 sm:size-5 transition-transform duration-200 group-hover:scale-110 shrink-0" />
                         <span>[ Desbloquear Acceso ]</span>
-                        <Unlock className="size-3.5 sm:size-4 transition-transform duration-200 group-hover:rotate-12 shrink-0" />
+                        <Unlock className="size-4 transition-transform duration-200 group-hover:rotate-12 shrink-0" />
                       </>
                     )}
                   </button>
-                  <p className="font-mono text-[9px] sm:text-[10px] text-center text-muted-foreground/60">
-                    * Confirmación requerida para habilitar la terminal
-                  </p>
+                  <div className="flex items-center justify-between px-1 text-[10px] font-mono text-muted-foreground/70">
+                    <span>* Toque para ingresar</span>
+                    <button
+                      type="button"
+                      onClick={handleSkip}
+                      className="text-signal/90 hover:underline cursor-pointer min-h-[32px] inline-flex items-center"
+                    >
+                      Omitir y ver sitio →
+                    </button>
+                  </div>
                 </div>
               ) : (
                 <div className="w-full flex items-center justify-between gap-3 text-[10px] sm:text-[11px] min-w-0">
@@ -366,7 +378,7 @@ export function Preloader() {
                   <button
                     type="button"
                     onClick={handleSkip}
-                    className="font-mono text-muted-foreground/70 transition-colors hover:text-signal cursor-pointer shrink-0 whitespace-nowrap px-1 py-0.5"
+                    className="font-mono text-signal/80 transition-colors hover:text-signal cursor-pointer shrink-0 whitespace-nowrap min-h-[36px] inline-flex items-center px-2"
                   >
                     [ Saltear ]
                   </button>
@@ -381,7 +393,7 @@ export function Preloader() {
 
       {/* Footer credits */}
       <div
-        className={`absolute bottom-2 sm:bottom-4 font-mono text-[9px] sm:text-[10px] text-muted-foreground/40 tracking-widest uppercase text-center px-2 transition-opacity duration-700 ${
+        className={`absolute bottom-2 sm:bottom-4 font-mono text-[9px] sm:text-[10px] text-muted-foreground/40 tracking-widest uppercase text-center px-2 transition-opacity duration-500 ${
           isFinished ? 'opacity-0' : 'opacity-100'
         }`}
       >
