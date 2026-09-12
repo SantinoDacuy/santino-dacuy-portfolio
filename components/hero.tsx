@@ -29,17 +29,16 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      style={{ perspective: '1200px' }}
       className="relative flex min-h-svh items-center overflow-hidden pt-24"
     >
       <WaveVisualizer className="opacity-90 [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_85%)]" />
       <div className="grid-lines absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_top,black,transparent_70%)]" />
 
       <div
-        className={`relative mx-auto w-full max-w-6xl px-5 pb-24 md:px-8 transition-all duration-1200 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`relative mx-auto w-full max-w-6xl px-5 pb-24 md:px-8 transition-all duration-500 ease-out transform-gpu will-change-[transform,opacity] ${
           hasEntered
-            ? 'scale-100 rotate-x-0 opacity-100 translate-y-0 blur-0'
-            : 'scale-95 -rotate-x-6 opacity-0 translate-y-8 blur-sm'
+            ? 'scale-100 opacity-100 translate-y-0'
+            : 'scale-[0.98] opacity-0 translate-y-4'
         }`}
       >
         <div className="max-w-2xl lg:max-w-3xl relative z-10">

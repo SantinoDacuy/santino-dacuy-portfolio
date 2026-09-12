@@ -88,18 +88,18 @@ export function Preloader() {
     }
   }, [])
 
-  // Acción interactiva del usuario para autenticar y acceder
+  // Acción interactiva instantánea con feedback táctil refinado tipo FaceID/TouchID
   const handleAuthorize = () => {
     if (isScanning || isGranted) return
 
     setIsScanning(true)
 
-    // Respuesta biométrica rápida y táctil (~240ms)
+    // Destello de escaneo biométrico inmediato (120ms)
     setTimeout(() => {
       setIsScanning(false)
       setIsGranted(true)
 
-      // Confirmación y transición fluida (< 600ms totales)
+      // Confirmación y desbloqueo fluido sin pausas artificiales (150ms)
       setTimeout(() => {
         setIsFinished(true)
         sessionStorage.setItem('sd_portfolio_loaded', 'true')
@@ -108,9 +108,9 @@ export function Preloader() {
 
         setTimeout(() => {
           setShouldRender(false)
-        }, 400)
-      }, 260)
-    }, 240)
+        }, 320)
+      }, 150)
+    }, 120)
   }
 
   // Opción instantánea para omitir/saltear en cualquier momento
@@ -123,25 +123,25 @@ export function Preloader() {
 
     setTimeout(() => {
       setShouldRender(false)
-    }, 250)
+    }, 200)
   }
 
   if (!shouldRender) return null
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-8 select-none transition-opacity duration-500 ease-out transform-gpu ${
+      className={`fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 md:p-8 select-none transition-opacity duration-300 ease-out transform-gpu will-change-[opacity] ${
         isFinished
           ? 'opacity-0 pointer-events-none'
-          : 'opacity-100 bg-background/98 backdrop-blur-xl pointer-events-auto'
+          : 'opacity-100 bg-background/98 pointer-events-auto'
       }`}
     >
-      {/* Botón flotante para SALTEAR siempre visible y accesible (mínimo 44px de área táctil) */}
+      {/* Botón flotante para SALTEAR siempre visible y accesible con touch-manipulation */}
       <button
         type="button"
         onClick={handleSkip}
         aria-label="Saltear pantalla de bienvenida"
-        className="absolute top-3 right-3 sm:top-5 sm:right-6 z-30 inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-2 font-mono text-xs text-muted-foreground transition-all duration-200 hover:border-signal/50 hover:bg-signal/15 hover:text-signal active:scale-95 cursor-pointer backdrop-blur-md shadow-lg"
+        className="touch-manipulation absolute top-3 right-3 sm:top-5 sm:right-6 z-30 inline-flex min-h-[44px] min-w-[44px] items-center justify-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3.5 py-2 font-mono text-xs text-muted-foreground transition-all duration-200 hover:border-signal/50 hover:bg-signal/15 hover:text-signal active:scale-95 cursor-pointer backdrop-blur-md shadow-lg"
       >
         <span>Saltear</span>
         <FastForward className="size-3.5 text-signal" />
@@ -149,12 +149,12 @@ export function Preloader() {
 
       {/* Dynamic ambient backgrounds */}
       <div
-        className={`pointer-events-none absolute inset-0 overflow-hidden transition-opacity duration-500 ${
+        className={`pointer-events-none absolute inset-0 overflow-hidden transition-opacity duration-300 ${
           isFinished ? 'opacity-0' : 'opacity-100'
         }`}
       >
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[580px] h-[280px] sm:h-[580px] rounded-full bg-signal/15 blur-[100px] animate-pulse" />
-        <div className="absolute bottom-10 right-1/4 w-[220px] sm:w-[420px] h-[220px] sm:h-[420px] rounded-full bg-violet-600/15 blur-[100px]" />
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[580px] h-[280px] sm:h-[580px] rounded-full bg-signal/15 blur-[90px] animate-pulse" />
+        <div className="absolute bottom-10 right-1/4 w-[220px] sm:w-[420px] h-[220px] sm:h-[420px] rounded-full bg-violet-600/15 blur-[90px]" />
 
         {/* Concentric Cyber Radar Rings */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] sm:w-[700px] h-[300px] sm:h-[700px] rounded-full border border-signal/[0.08] animate-[spin_80s_linear_infinite]" />
@@ -170,11 +170,11 @@ export function Preloader() {
         </div>
       </div>
 
-      {/* Main Glass Center Card: acelerado por hardware, sin transformaciones 3D pesadas */}
+      {/* Main Glass Center Card: acelerado por hardware sin filtros pesados en salida */}
       <div
-        className={`relative w-full max-w-lg sm:max-w-xl md:max-w-2xl max-h-[92svh] flex flex-col justify-between overflow-y-auto sm:overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 glass p-4 sm:p-6 md:p-8 shadow-[0_25px_80px_rgba(0,0,0,0.85)] z-10 transition-all duration-400 ease-out transform-gpu ${
+        className={`relative w-full max-w-lg sm:max-w-xl md:max-w-2xl max-h-[92svh] flex flex-col justify-between overflow-y-auto sm:overflow-hidden rounded-2xl sm:rounded-3xl border border-white/10 bg-black/60 p-4 sm:p-6 md:p-8 shadow-[0_25px_80px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 ease-out transform-gpu will-change-[transform,opacity] ${
           isFinished
-            ? 'scale-[0.97] -translate-y-2 opacity-0'
+            ? 'scale-[0.98] -translate-y-2 opacity-0'
             : 'scale-100 translate-y-0 opacity-100'
         }`}
       >
@@ -187,7 +187,7 @@ export function Preloader() {
           <div className="flex sm:hidden items-center gap-3 pb-2.5 border-b border-white/10 w-full min-w-0">
             <div className="relative size-12 shrink-0 overflow-hidden rounded-xl border border-signal/40 shadow-[0_0_12px_rgba(var(--signal),0.3)]">
               <Image
-                src="/SANyLEGO.jpeg"
+                src="/SANyLEGO.webp"
                 alt="Santino Dacuy"
                 fill
                 priority
@@ -214,7 +214,7 @@ export function Preloader() {
             <div className="group relative aspect-[3/4] w-full max-w-[200px] overflow-hidden rounded-2xl border border-white/15 shadow-2xl">
               <div className="absolute -inset-2 rounded-2xl bg-signal/25 blur-xl -z-10" />
               <Image
-                src="/SANyLEGO.jpeg"
+                src="/SANyLEGO.webp"
                 alt="Santino Dacuy"
                 fill
                 priority
@@ -330,10 +330,10 @@ export function Preloader() {
               </div>
             </div>
 
-            {/* Action Area */}
+            {/* Action Area con feedback táctil inmediato en iOS/Android */}
             <div className="pt-0.5 flex flex-col items-center gap-2 w-full min-w-0">
               {isGranted ? (
-                <div className="w-full flex items-center justify-center gap-2 rounded-full border border-emerald-500/50 bg-emerald-500/20 py-2.5 sm:py-3 text-emerald-300 font-mono text-xs sm:text-sm font-semibold shadow-[0_0_25px_rgba(16,185,129,0.45)] animate-in zoom-in-95 duration-150">
+                <div className="w-full flex items-center justify-center gap-2 rounded-full border border-emerald-500/60 bg-emerald-500/25 py-2.5 sm:py-3 text-emerald-300 font-mono text-xs sm:text-sm font-semibold shadow-[0_0_30px_rgba(16,185,129,0.55)] animate-in zoom-in-95 duration-100">
                   <CheckCircle2 className="size-4 text-emerald-400 animate-bounce shrink-0" />
                   <span className="truncate">✓ ACCESO ACEPTADO · BIENVENIDO</span>
                 </div>
@@ -343,18 +343,18 @@ export function Preloader() {
                     type="button"
                     onClick={handleAuthorize}
                     disabled={isScanning}
-                    className="w-full group relative inline-flex min-h-[46px] items-center justify-center gap-2 rounded-full bg-signal px-4 sm:px-6 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-semibold text-signal-foreground transition-all duration-200 hover:brightness-110 hover:shadow-[0_0_35px_rgba(var(--signal),0.75)] active:scale-[0.98] cursor-pointer animate-in zoom-in-95"
+                    className="touch-manipulation w-full group relative inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-signal px-4 sm:px-6 py-2.5 sm:py-3 font-mono text-xs sm:text-sm font-semibold text-signal-foreground transition-all duration-150 hover:brightness-110 hover:shadow-[0_0_35px_rgba(var(--signal),0.85)] active:scale-[0.97] active:brightness-125 cursor-pointer shadow-[0_0_20px_rgba(var(--signal),0.35)]"
                   >
                     {isScanning ? (
                       <>
                         <div className="size-4 rounded-full border-2 border-signal-foreground border-t-transparent animate-spin shrink-0" />
-                        <span>Verificando biométrica...</span>
+                        <span className="animate-pulse">Escaneando credenciales...</span>
                       </>
                     ) : (
                       <>
-                        <Fingerprint className="size-4 sm:size-5 transition-transform duration-200 group-hover:scale-110 shrink-0" />
+                        <Fingerprint className="size-4 sm:size-5 transition-transform duration-150 group-hover:scale-110 shrink-0" />
                         <span>[ Desbloquear Acceso ]</span>
-                        <Unlock className="size-4 transition-transform duration-200 group-hover:rotate-12 shrink-0" />
+                        <Unlock className="size-4 transition-transform duration-150 group-hover:rotate-12 shrink-0" />
                       </>
                     )}
                   </button>
@@ -363,7 +363,7 @@ export function Preloader() {
                     <button
                       type="button"
                       onClick={handleSkip}
-                      className="text-signal/90 hover:underline cursor-pointer min-h-[32px] inline-flex items-center"
+                      className="touch-manipulation text-signal/90 hover:underline cursor-pointer min-h-[32px] inline-flex items-center"
                     >
                       Omitir y ver sitio →
                     </button>
@@ -378,7 +378,7 @@ export function Preloader() {
                   <button
                     type="button"
                     onClick={handleSkip}
-                    className="font-mono text-signal/80 transition-colors hover:text-signal cursor-pointer shrink-0 whitespace-nowrap min-h-[36px] inline-flex items-center px-2"
+                    className="touch-manipulation font-mono text-signal/80 transition-colors hover:text-signal cursor-pointer shrink-0 whitespace-nowrap min-h-[36px] inline-flex items-center px-2"
                   >
                     [ Saltear ]
                   </button>
@@ -393,7 +393,7 @@ export function Preloader() {
 
       {/* Footer credits */}
       <div
-        className={`absolute bottom-2 sm:bottom-4 font-mono text-[9px] sm:text-[10px] text-muted-foreground/40 tracking-widest uppercase text-center px-2 transition-opacity duration-500 ${
+        className={`absolute bottom-2 sm:bottom-4 font-mono text-[9px] sm:text-[10px] text-muted-foreground/40 tracking-widest uppercase text-center px-2 transition-opacity duration-300 ${
           isFinished ? 'opacity-0' : 'opacity-100'
         }`}
       >

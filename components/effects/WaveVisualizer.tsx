@@ -57,8 +57,11 @@ export function WaveVisualizer({ className }: { className?: string }) {
     }
     document.addEventListener('visibilitychange', handleVisibility)
 
+    let preloaderTimeout: NodeJS.Timeout | null = null
     const handlePreloaderComplete = () => {
-      isPreloaderDone = true
+      preloaderTimeout = setTimeout(() => {
+        isPreloaderDone = true
+      }, 100)
     }
     window.addEventListener('sd-preloader-complete', handlePreloaderComplete)
 
@@ -112,6 +115,7 @@ export function WaveVisualizer({ className }: { className?: string }) {
     window.addEventListener('pointermove', onMove, { passive: true })
     
     return () => {
+      if (preloaderTimeout) clearTimeout(preloaderTimeout)
       cancelAnimationFrame(raf)
       observer.disconnect()
       window.removeEventListener('resize', resize)

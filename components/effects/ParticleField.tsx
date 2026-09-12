@@ -134,8 +134,11 @@ export function ParticleField() {
     }
     document.addEventListener('visibilitychange', handleVisibility)
 
+    let preloaderTimeout: NodeJS.Timeout | null = null
     const handlePreloaderComplete = () => {
-      isPreloaderDone = true
+      preloaderTimeout = setTimeout(() => {
+        isPreloaderDone = true
+      }, 250)
     }
     window.addEventListener('sd-preloader-complete', handlePreloaderComplete)
 
@@ -177,6 +180,7 @@ export function ParticleField() {
     animate()
 
     return () => {
+      if (preloaderTimeout) clearTimeout(preloaderTimeout)
       cancelAnimationFrame(raf)
       window.removeEventListener('pointermove', onMove)
       window.removeEventListener('resize', resize)

@@ -31,7 +31,7 @@ export function About() {
 
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-2xl bg-black/40">
                 <Image
-                  src="/SANyLEGO.jpeg"
+                  src="/SANyLEGO.webp"
                   alt="Santino Dacuy con LEGO"
                   fill
                   sizes="(max-width: 640px) 340px, (max-width: 1024px) 370px, 400px"
